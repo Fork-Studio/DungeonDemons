@@ -68,6 +68,9 @@ end
 function GameObject:mousepress( button, x, y )
 end
 
+function GameObject:wheelmove( x, y )
+end
+
 --  @function GameObject:draw
 --      | description: Draw GameObject
 function GameObject:draw()

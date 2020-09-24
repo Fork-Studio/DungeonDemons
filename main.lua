@@ -1,11 +1,12 @@
 --  > Pixel-Art Filter
 love.graphics.setDefaultFilter( "nearest" )
 
---  > Dependencies
+--  > Global Variables
 SPRITE_SIZE, REAL_SIZE = 16, 48
 FACTOR = REAL_SIZE / SPRITE_SIZE
-DEBUG = true
+DEBUG = false
 
+--  > Dependencies
 require "lua.libs.require"
 require "lua.libs.*"
 require "lua.scenes.*"
@@ -49,8 +50,14 @@ function love.mousepressed( x, y, button )
     GameObjects.call( "mousepress", button, x, y )
 end
 
+function love.wheelmoved( x, y )
+    GameObjects.call( "wheelmove", x, y )
+end
+
 function love.draw()
     GameObjects.call( "draw" )
+    --  > TODO: make only one call to scene draw func
+    love._scene:draw()
     
     love.graphics.origin()
     love.graphics.setColor( 1, 1, 1 )
