@@ -7,7 +7,7 @@ function Menu:update( dt )
 end
 
 function Menu:keypress( key )
-    if key == "r" then
+    if key == "escape" then
         love.setScene( Game )
     end
 end

@@ -1,12 +1,25 @@
 Map = class( GameObject )
 Map.level = {}
+Map.w, Map.h = 0, 0
 
 function Map:init( w, h )
-    for y = 0, h do
+    for y = 0, h - 1 do
         self.level[y] = {}
-        for x = 0, w do
-            self.level[y][x] = math.random( 1, 2 ) == 1 and TILE_WOOD or TILE_LAVA_CENTER
+        for x = 0, w - 1 do
+            self.level[y][x] = TILE_GRASS
         end
+    end
+
+    self.w, self.h = w, h
+end
+
+function Map:getTile( tile_x, tile_y )
+    return self.level[tile_y] and self.level[tile_y][tile_x]
+end
+
+function Map:setTile( tile_x, tile_y, tile )
+    if self:getTile( tile_x, tile_y ) then
+        self.level[tile_y][tile_x] = tile
     end
 end
 
