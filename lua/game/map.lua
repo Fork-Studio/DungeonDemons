@@ -5,12 +5,14 @@ function Map:init( w, h )
     for y = 0, h do
         self.level[y] = {}
         for x = 0, w do
-            self.level[y][x] = math.random( 1, 2 ) == 1 and TILE_WOOD or TILE_LAVA
+            self.level[y][x] = math.random( 1, 2 ) == 1 and TILE_WOOD or TILE_LAVA_CENTER
         end
     end
 end
 
 function Map:draw()
+    love.graphics.setColor( 1, 1, 1 )
+
     for y, yv in pairs( self.level ) do
         for x, xv in pairs( yv ) do
             if xv.quad then

@@ -4,6 +4,7 @@ love.graphics.setDefaultFilter( "nearest" )
 --  > Dependencies
 SPRITE_SIZE, REAL_SIZE = 16, 48
 FACTOR = REAL_SIZE / SPRITE_SIZE
+DEBUG = true
 
 require "lua.libs.require"
 require "lua.libs.*"
@@ -52,5 +53,6 @@ function love.draw()
     GameObjects.call( "draw" )
     
     love.graphics.origin()
+    love.graphics.setColor( 1, 1, 1 )
     love.graphics.print( love.timer.getFPS() .. " FPS", 5, 5 )
 end

@@ -5,7 +5,7 @@ Game.selected_npc = nil
 function Game:init()
     self.map = Map( 16, 16 )
 
-    NPC( "Dorian" ).target = { x = 500, y = 400 }
+    NPC( ( "Dorian" ):rep( 2 ) ).target = { x = 500, y = 400 }
 end
 
 function Game:update( dt )
