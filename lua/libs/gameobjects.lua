@@ -13,6 +13,10 @@ function GameObjects.call( key, ... )
     end
 end
 
+function GameObjects.reset()
+    objects, id = {}, 0
+end
+
 --  @class GameObject
 --      | description: 
 --          Represent a game object in the game world. A game object has an update and a draw phase, 

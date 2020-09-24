@@ -2,6 +2,9 @@
 love.graphics.setDefaultFilter( "nearest" )
 
 --  > Dependencies
+SPRITE_SIZE, REAL_SIZE = 16, 48
+FACTOR = REAL_SIZE / SPRITE_SIZE
+
 require "lua.libs.require"
 require "lua.libs.*"
 require "lua.scenes.*"
@@ -10,11 +13,13 @@ require "lua.game.*"
 
 --  > Framework
 function love.load()
+    math.randomseed( os.time() )
     love.setScene( Game )
 end
 
 function love.setScene( scene, ... )
     if love._scene then love._scene:destroy() end
+    GameObjects.reset()
 
     local args = { ... }
     timer( 0, function() 
