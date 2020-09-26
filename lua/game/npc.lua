@@ -8,7 +8,7 @@ NPC.selected = false
 NPC.target = nil
 
 NPC.image = image( "demons/drakon.png" )
-NPC.quads, NPC.quad_id = quads( NPC.image ), 1
+NPC.quads, NPC.quad_id = nil, 1
 NPC.anim_time, NPC.anim_fps = 0, 6
 NPC.scale_x, NPC.scale_y = 1, 1
 
@@ -17,6 +17,7 @@ function NPC:init( name, image )
 
     --  > Image
     self.image = image or self.image
+    self.quads = quads( self.image )
     self.img_w, self.img_h = self.image:getDimensions()
     self.w, self.h = self.img_w * FACTOR, self.img_h * FACTOR
 
