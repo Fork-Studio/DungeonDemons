@@ -1,13 +1,21 @@
 --  > Tile
-Tile = class()
+local id = 0
+Tile, Tiles = class(), {}
 Tile.image, Tile.quad = nil, nil
+Tile.id = 0
 
 function Tile:construct( path, quad )
     self.image, self.quad = type( path ) == "string" and image( path ) or path, quad
+
+    id = id + 1
+    self.id = id
+
+    Tiles[self.id] = self
+    return self.id
 end
 
 --  > Tiles
-function Tiles( image, quads )
+local function tiles( image, quads )
     local tiles = {}
 
     for i, v in ipairs( quads ) do
@@ -35,7 +43,7 @@ TILE_LAVA_DIRT,
 TILE_LAVA_TOP_RIGHT_CORNER,
 TILE_LAVA_TOP_LEFT_CORNER,
 TILE_LAVA_BOTTOM_RIGHT_CORNER,
-TILE_LAVA_BOTTOM_LEFT_CORNER = Tiles( _image, quads( _image ) )
+TILE_LAVA_BOTTOM_LEFT_CORNER = tiles( _image, quads( _image ) )
 
 --  Stone
 local _image = image( "tiles/wall_stone.png" )
@@ -47,7 +55,7 @@ TILE_STONE_BOTTOM_LEFT,
 TILE_STONE_BOTTOM_RIGHT,
 TILE_STONE_TOP_RIGHT,
 TILE_STONE_TOP_LEFT,
-TILE_STONE_BLOCK = Tiles( _image, quads( _image ) )
+TILE_STONE_BLOCK = tiles( _image, quads( _image ) )
 
 --  Grass
 TILE_GRASS = Tile( "tiles/grass.png" )

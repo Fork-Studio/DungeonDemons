@@ -1,7 +1,5 @@
 require "lua.game.tile"
 
-print( TILE_LAVA_CENTER )
-
 Game = class( GameObject )
 Game.map = nil
 Game.editing_mode, Game.editing_tiles, Game.editing_tile_id = false, {
@@ -35,6 +33,11 @@ function Game:update( dt )
 
             --  > Change map tile
             self.map:setTile( tile_x, tile_y, tile )
+
+            --  > Smooth
+            timer( dt * 2, function()
+                self.map:smooth()
+            end, "game.map.smooth" )
         end
     end
 end
@@ -107,7 +110,7 @@ function Game:draw()
         end
 
         --  > Tile Preview
-        local tile = self.editing_tiles[self.editing_tile_id]
+        local tile = Tiles[self.editing_tiles[self.editing_tile_id]]
         local tile_x, tile_y = self:getMouseTilePosition()
 
         love.graphics.setColor( 1, 1, 1, .75 )

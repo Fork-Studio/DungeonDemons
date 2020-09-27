@@ -98,7 +98,7 @@ function mt.__call(func, base)
     local self = mt.construct(class, ...)
     
     if class.construct then
-      class.construct(self, ...)
+      return class.construct(self, ...) or self
     end
     
     return self
