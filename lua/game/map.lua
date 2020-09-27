@@ -13,10 +13,6 @@ function Map:init( w, h )
     self.w, self.h = w, h
 end
 
-function Map:isLava( tile )
-    return tile >= TILE_LAVA_CENTER and tile <= TILE_LAVA_BOTTOM_LEFT_CORNER and not ( tile == TILE_LAVA_DIRT )
-end
-
 function Map:smooth()
     local function is_not_lava( tile )
         return not ( Tiles[tile].image == Tiles[TILE_LAVA_DIRT].image ) or tile == TILE_LAVA_DIRT
@@ -30,7 +26,7 @@ function Map:smooth()
             local right = self:getTile( x + 1, y )
             
             --  > Lava
-            if self:isLava( xv ) then
+            if xv >= TILE_LAVA_CENTER and xv <= TILE_LAVA_BOTTOM_LEFT_CORNER and not ( xv == TILE_LAVA_DIRT ) then
                 up = is_not_lava( up )
                 down = is_not_lava( down )
                 left = is_not_lava( left )
