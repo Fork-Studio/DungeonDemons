@@ -1,5 +1,6 @@
 NPCs, NPC = {}, class( GameObject )
 NPC.x, NPC.y = 0, 0
+NPC.vel_x, NPC.vel_y = 0, 0
 NPC.ang = 0
 NPC.move_speed = 150
 
@@ -34,6 +35,10 @@ function NPC:anim( dt )
 end
 
 function NPC:update( dt )
+    --  > Velocity
+    self.x, self.y = self.x + self.vel_x, self.y + self.vel_y
+    self.vel_x, self.vel_y = approach( dt * 5, self.vel_x, 0 ), approach( dt * 5, self.vel_y, 0 )
+
     --  > Travel to target
     if self.target and distance( self.x + self.h / 2, self.y + self.h / 2, self.target.x, self.target.y ) > 1 then
         local dir = direction_angle( self.x + self.h / 2, self.y + self.h / 2, self.target.x, self.target.y )
@@ -52,6 +57,20 @@ function NPC:update( dt )
     end 
 end
 
+function NPC:knockback( origin, force )
+    local force = force or 1
+
+    --  > Push
+    local ang = direction_angle( self.x + self.h / 2, self.y + self.h / 2, origin.x, origin.y ) + math.pi
+    self.vel_x, self.vel_y = self.vel_x + math.cos( ang ) * force, self.vel_y + math.sin( ang ) * force
+
+    --  > Shader
+    self.shader = Shaders.HIT
+    timer( .25, function()
+        self.shader = nil
+    end, self:getID( ".hit_shader" ) )
+end
+
 function NPC:draw()
     love.graphics.setColor( 1, 1, 1 )
 
@@ -59,8 +78,18 @@ function NPC:draw()
     local limit = 100
     love.graphics.printf( self.name, self.x - limit / 2 + self.h / 2, self.y - self.h / 4, limit, "center" )
     
+    --  > Shader
+    if self.shader then
+        love.graphics.setShader( self.shader )
+    end
+
     --  > Sprite
     love.graphics.draw( self.image, self.quads[self.quad_id], self.x + self.h / 2, self.y + self.h / 2, self.ang, FACTOR * self.scale_x, FACTOR * self.scale_y, self.img_h / 2, self.img_h / 2 )
+
+    --  > Reset Shader
+    if self.shader then
+        love.graphics.setShader()
+    end
 
     --  > Debug
     if DEBUG then
@@ -74,6 +103,10 @@ function NPC:draw()
             love.graphics.line( self.x + self.h / 2, self.y + self.h / 2, self.target.x, self.target.y )
         end
     end
+end
+
+function NPC:getID( suffix )
+    return ( "npc.%d" ):format( self.id ) .. ( suffix or "" )
 end
 
 function NPC:destroy()

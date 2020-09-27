@@ -92,6 +92,10 @@ function Game:mousepress( button, x, y )
                 self.selected_npc.selected = false
                 self.selected_npc = nil
             end
+
+            for k, v in pairs( NPCs ) do
+                v:knockback( { x = x, y = y }, 5 )
+            end
         end
     end
 end
